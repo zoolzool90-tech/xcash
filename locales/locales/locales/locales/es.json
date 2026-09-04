@@ -1,0 +1,13 @@
+{
+  "app_name": "X Cash",
+  "wallet_balance": "Saldo de la billetera",
+  "buy_xcash": "Comprar X Cash",
+  "rate_notice": "1 USD = 10 X Cash",
+  "transaction_id": "ID de transacción",
+  "invoice_title": "Factura de compra - X Cash",
+  "customer": "Cliente",
+  "vendor": "Vendedor",
+  "delivery_company": "Empresa de envío",
+  "total_amount": "Monto total",
+  "payment_success": "Deducido con éxito de la billetera"
+}
