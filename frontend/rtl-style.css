@@ -1,0 +1,55 @@
+/* التنسيق الرئيسي لدعم الاتجاه من اليمين إلى اليسار (RTL) */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+/* تنسيق للغات التي تكتب من اليسار إلى اليمين (LTR) */
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* ألوان الهوية البصرية للتطبيق (الأسود والذهبي) */
+body {
+  background-color: #0F0F12;
+  color: #FFFFFF;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* بطاقة المحفظة باللون الأسود الكربوني والحواف الذهبية */
+.wallet-card {
+  background-color: #1A1A1E;
+  border: 2px solid #D4AF37;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 15px;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+}
+
+/* محاذاة عناصر الأزرار والأيقونات حسب الاتجاه */
+[dir="rtl"] .wallet-card {
+  border-right: 5px solid #FFD700;
+}
+
+[dir="ltr"] .wallet-card {
+  border-left: 5px solid #FFD700;
+}
+
+/* زر شراء X Cash الذهبي */
+.btn-gold {
+  background: linear-gradient(135deg, #D4AF37, #FFD700);
+  color: #000000;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
