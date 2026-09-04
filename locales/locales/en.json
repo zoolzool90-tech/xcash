@@ -1,0 +1,13 @@
+{
+  "app_name": "X Cash",
+  "wallet_balance": "Wallet Balance",
+  "buy_xcash": "Buy X Cash",
+  "rate_notice": "1 USD = 10 X Cash",
+  "transaction_id": "Transaction ID",
+  "invoice_title": "Purchase Invoice - X Cash",
+  "customer": "Customer",
+  "vendor": "Vendor",
+  "delivery_company": "Delivery Company",
+  "total_amount": "Total Amount",
+  "payment_success": "Deducted successfully from wallet"
+}
