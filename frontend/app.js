@@ -1,11 +1,12 @@
-// تحميل ملف اللغة وتحديث الواجهة
+const API_BASE_URL = 'http://localhost:5000/api';
+
+// تحميل ملف اللغة وتحديث الواجهة والاتجاهات
 async function loadLanguage(lang) {
     try {
         const response = await fetch(`../locales/${lang}.json`);
         const translations = await response.json();
         
-        // تحديث اتجاه اللوحة والنصوص
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
         document.documentElement.lang = lang;
         
         if (translations.wallet) {
@@ -14,11 +15,24 @@ async function loadLanguage(lang) {
             document.getElementById('buyBtn').innerText = translations.wallet.buy_button;
         }
     } catch (error) {
-        console.error('Error loading language file:', error);
+        console.error('خطأ في تحميل ملف اللغة:', error);
     }
 }
 
-// الاستماع لتغيير اللغة من القائمة
+// جلب رصيد المحفظة من السيرفر
+async function fetchWalletBalance(userId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/wallet/${userId}`);
+        const data = await response.json();
+        if (response.ok) {
+            document.getElementById('balance').innerText = data.balance;
+        }
+    } catch (error) {
+        console.error('خطأ في جلب رصيد المحفظة:', error);
+    }
+}
+
+// الاستماع للفعاليات عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     const langSelect = document.getElementById('langSelect');
     if (langSelect) {
@@ -26,4 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadLanguage(e.target.value);
         });
     }
+
+    // تجربة جلب رصيد المستخدم رقم 1 كنموذج
+    fetchWalletBalance(1);
 });
