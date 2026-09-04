@@ -1,0 +1,14 @@
+{
+  "name": "xcash-backend",
+  "version": "1.0.0",
+  "description": "Backend engine for X Cash ecosystem, wallet management, and multi-language invoicing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "author": "X Cash Team",
+  "license": "ISC"
+}
