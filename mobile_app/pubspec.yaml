@@ -16,18 +16,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
-# إضافة هذه الأسطر في نهاية الملف لتخصيص الأيقونة
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: true
-  image_path: "assets/icon.png"
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_launcher_icons: ^0.13.1
+  assets:
+    - assets/icon.png
 
 flutter_launcher_icons:
   android: "launcher_icon"
