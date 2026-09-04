@@ -1,0 +1,13 @@
+{
+  "app_name": "X Cash",
+  "wallet_balance": "Guthaben-Brieftasche",
+  "buy_xcash": "X Cash kaufen",
+  "rate_notice": "1 USD = 10 X Cash",
+  "transaction_id": "Transaktions-ID",
+  "invoice_title": "Kaufrechnung - X Cash",
+  "customer": "Kunde",
+  "vendor": "Verkäufer",
+  "delivery_company": "Lieferunternehmen",
+  "total_amount": "Gesamtbetrag",
+  "payment_success": "Erfolgreich vom Guthaben abgezogen"
+}
