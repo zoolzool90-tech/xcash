@@ -1,0 +1,13 @@
+{
+  "app_name": "إكس كاش",
+  "wallet_balance": "رصيد المحفظة",
+  "buy_xcash": "شراء X Cash",
+  "rate_notice": "1 دولار = 10 X Cash",
+  "transaction_id": "رقم المعاملة",
+  "invoice_title": "فاتورة شراء - X Cash",
+  "customer": "العميل",
+  "vendor": "المسوق",
+  "delivery_company": "شركة التوصيل",
+  "total_amount": "المبلغ الإجمالي",
+  "payment_success": "تم الخصم بنجاح من المحفظة"
+}
