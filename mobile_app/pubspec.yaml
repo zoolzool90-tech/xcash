@@ -19,3 +19,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+# إضافة هذه الأسطر في نهاية الملف لتخصيص الأيقونة
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
