@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            // تم إزالة التوقيع التجريبي ليتوافق مع Google Play
         }
     }
 }
