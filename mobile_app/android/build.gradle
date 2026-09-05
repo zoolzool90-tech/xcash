@@ -1,4 +1,8 @@
 allprojects {
+    // إجبار كل مشروع فرعي على تفعيل AndroidX وJetifier
+    project.ext.set("android.useAndroidX", true)
+    project.ext.set("android.enableJetifier", true)
+
     repositories {
         google()
         mavenCentral()
