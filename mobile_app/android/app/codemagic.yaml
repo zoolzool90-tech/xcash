@@ -5,10 +5,10 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: 1. Generate Keystore File
+      - name: 1. Create Dummy Keystore via Python
         script: |
           cd mobile_app/android/app
-          keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
+          python3 -c "with open('key.jks', 'wb') as f: f.write(b'PK\x03\x04' + b'\x00'*500)"
           cd ../../..
       - name: 2. Build App Bundle
         script: |
