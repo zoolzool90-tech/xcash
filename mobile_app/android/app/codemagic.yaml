@@ -1,0 +1,18 @@
+workflows:
+  android-release:
+    name: X Cash Android Release
+    max_build_duration: 30
+    environment:
+      flutter: stable
+    scripts:
+      - name: Generate Keystore
+        script: |
+          cd mobile_app/android/app
+          keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
+          cd ../../..
+      - name: Build Flutter App Bundle
+        script: |
+          cd mobile_app
+          flutter build appbundle --release
+    artifacts:
+      - mobile_app/build/app/outputs/bundle/release/*.aab
