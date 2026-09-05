@@ -5,9 +5,13 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: Build Unsigned App Bundle
+      - name: 1. Create Keystore File Safely
+        script: |
+          mkdir -p mobile_app/android/app
+          printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" > mobile_app/android/app/key.jks
+      - name: 2. Build App Bundle
         script: |
           cd mobile_app
-          flutter build appbundle --release --no-pub
+          flutter build appbundle --release
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
