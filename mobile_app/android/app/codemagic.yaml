@@ -5,9 +5,10 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: Generate Keystore with Absolute Path
+      - name: Generate Keystore in Exact Workspace Path
         script: |
-          KEYSTORE_PATH="/Users/builder/clone/mobile_app/android/app/key.jks"
+          echo "Building in: $CM_BUILD_DIR"
+          KEYSTORE_PATH="$CM_BUILD_DIR/mobile_app/android/app/key.jks"
           mkdir -p "$(dirname "$KEYSTORE_PATH")"
           keytool -genkey -v -keystore "$KEYSTORE_PATH" -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
           ls -la "$KEYSTORE_PATH"
