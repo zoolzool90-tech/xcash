@@ -5,13 +5,13 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: 1. Generate Keystore Before Gradle
-        script: |
-          mkdir -p mobile_app/android/app
-          keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
-      - name: 2. Build Signed App Bundle
+      - name: Build App Bundle with Command Line Signing
         script: |
           cd mobile_app
-          flutter build appbundle --release
+          flutter build appbundle --release \
+            --android-signing-key-path=android/app/key.jks \
+            --android-signing-key-password=123456 \
+            --android-signing-key-alias=key \
+            --android-signing-store-password=123456
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
