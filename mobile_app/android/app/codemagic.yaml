@@ -5,13 +5,14 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: Build App Bundle with Command Line Signing
+      - name: 1. Generate Keystore File
+        script: |
+          cd mobile_app/android/app
+          keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
+          cd ../../..
+      - name: 2. Build App Bundle
         script: |
           cd mobile_app
-          flutter build appbundle --release \
-            --android-signing-key-path=android/app/key.jks \
-            --android-signing-key-password=123456 \
-            --android-signing-key-alias=key \
-            --android-signing-store-password=123456
+          flutter build appbundle --release
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
