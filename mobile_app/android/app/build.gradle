@@ -16,6 +16,15 @@ android {
     namespace "com.walid.xcash"
     compileSdk 34
 
+    signingConfigs {
+        release {
+            storeFile file("debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+    }
+
     defaultConfig {
         applicationId "com.walid.xcash"
         minSdk 21
@@ -26,7 +35,7 @@ android {
 
     buildTypes {
         release {
-            // تم إزالة التوقيع التجريبي ليتوافق مع Google Play
+            signingConfig signingConfigs.release
         }
     }
 }
