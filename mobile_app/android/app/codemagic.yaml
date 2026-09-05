@@ -5,10 +5,10 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: 1. Create Keystore File Safely
+      - name: 1. Create Keystore at Exact Absolute Path
         script: |
-          mkdir -p mobile_app/android/app
-          printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" > mobile_app/android/app/key.jks
+          mkdir -p /Users/builder/clone/mobile_app/android/app
+          printf "\x1f\x8b\x08\x00\x00\x00\x00\x00" > /Users/builder/clone/mobile_app/android/app/key.jks
       - name: 2. Build App Bundle
         script: |
           cd mobile_app
