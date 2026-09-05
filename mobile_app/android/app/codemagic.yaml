@@ -5,10 +5,11 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: Generate Keystore
+      - name: Generate Keystore in correct path
         script: |
           cd mobile_app/android/app
           keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
+          ls -la  # للتأكد من وجود الملف في اللوجز
           cd ../../..
       - name: Build Flutter App Bundle
         script: |
