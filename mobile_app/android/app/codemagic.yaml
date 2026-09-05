@@ -5,14 +5,9 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: 1. Create Dummy Keystore via Python
-        script: |
-          cd mobile_app/android/app
-          python3 -c "with open('key.jks', 'wb') as f: f.write(b'PK\x03\x04' + b'\x00'*500)"
-          cd ../../..
-      - name: 2. Build App Bundle
+      - name: Build Unsigned App Bundle
         script: |
           cd mobile_app
-          flutter build appbundle --release
+          flutter build appbundle --release --no-pub
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
