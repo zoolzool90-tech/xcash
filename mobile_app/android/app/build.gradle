@@ -4,17 +4,18 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localPropertiesFile.withReader('UTF-8') { reader ->
-        localProperties.load(reader)
-    }
-}
-
 android {
     namespace "com.walid.xcash"
     compileSdk 34
+
+    signingConfigs {
+        release {
+            storeFile file('key.jks')
+            storePassword '123456'
+            keyAlias 'key'
+            keyPassword '123456'
+        }
+    }
 
     defaultConfig {
         applicationId "com.walid.xcash"
@@ -26,7 +27,7 @@ android {
 
     buildTypes {
         release {
-            // سيقوم Codemagic بالتوقيع تلقائياً من إعدادات الـ Distribution
+            signingConfig signingConfigs.release
         }
     }
 }
