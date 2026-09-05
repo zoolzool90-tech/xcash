@@ -1,11 +1,12 @@
-project.ext.set("android.useAndroidX", true)
-project.ext.set("android.enableJetifier", true)
-
 plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
+
+// تفعيل AndroidX برمجياً في المكان الصحيح بعد كتل الـ plugins
+project.ext.set("android.useAndroidX", true)
+project.ext.set("android.enableJetifier", true)
 
 android {
     namespace "com.example.xcash"
