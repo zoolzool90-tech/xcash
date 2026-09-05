@@ -13,11 +13,11 @@ if (localPropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.example.xcash_mobile"
+    namespace "com.walid.xcash"
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.xcash_mobile"
+        applicationId "com.walid.xcash"
         minSdk 21
         targetSdk 34
         versionCode 1
