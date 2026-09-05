@@ -26,3 +26,9 @@ plugins {
 }
 
 include ":app"
+
+// تفعيل AndroidX برمجياً بعد انتهاء كتل النظام الإلزامية
+gradle.beforeProject { project ->
+    project.ext.set("android.useAndroidX", true)
+    project.ext.set("android.enableJetifier", true)
+}
