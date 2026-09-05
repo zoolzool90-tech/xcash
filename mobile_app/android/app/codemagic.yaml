@@ -5,11 +5,13 @@ workflows:
     environment:
       flutter: stable
     scripts:
-      - name: 1. Generate Keystore First
+      - name: Generate Keystore with Absolute Path
         script: |
-          mkdir -p mobile_app/android/app
-          keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
-      - name: 2. Build Flutter App Bundle
+          KEYSTORE_PATH="/Users/builder/clone/mobile_app/android/app/key.jks"
+          mkdir -p "$(dirname "$KEYSTORE_PATH")"
+          keytool -genkey -v -keystore "$KEYSTORE_PATH" -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Android, OU=Android, O=Android, L=Cali, ST=CA, C=US"
+          ls -la "$KEYSTORE_PATH"
+      - name: Build Flutter App Bundle
         script: |
           cd mobile_app
           flutter build appbundle --release
