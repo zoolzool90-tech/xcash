@@ -6,11 +6,11 @@ workflows:
       flutter: stable
       java: 17
     scripts:
-      - name: 1. Generate Keystore Dynamically
+      - name: Generate debug keystore for signing
         script: |
           cd mobile_app/android/app
-          $JAVA_HOME/bin/keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=XCash, O=XCash, L=Dubai, ST=Dubai, C=AE"
-      - name: 2. Build Signed App Bundle
+          $JAVA_HOME/bin/keytool -genkey -v -keystore debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US"
+      - name: Build App Bundle
         script: |
           cd mobile_app
           flutter build appbundle --release
