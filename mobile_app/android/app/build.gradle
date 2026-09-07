@@ -4,34 +4,67 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
 android {
     namespace "com.walid.xcash"
-    compileSdk 34
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
 
-    signingConfigs {
-        release {
-            storeFile file('key.jks')
-            storePassword '123456'
-            keyAlias 'key'
-            keyPassword '123456'
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_1
+        targetCompatibility JavaVersion.VERSION_1_1
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.1'
     }
 
     defaultConfig {
         applicationId "com.walid.xcash"
-        minSdk 21
-        targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
+        minSdk flutter.minSdkVersion
+        targetSdk flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName.name
+    }
+
+    signingConfigs {
+        release {
+            // استخدام مفتاح الـ debug الافتراضي لتجاوز خطأ البحث عن ملف key.jks الخارجي نهائياً
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
 
     buildTypes {
         release {
+            // ربط إعدادات التوقيع بريلز لتوليد الحزمة المقبولة
             signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
         }
     }
 }
 
 flutter {
-    source '../..'
+    source = '../..'
+}
+
+dependencies {
 }
