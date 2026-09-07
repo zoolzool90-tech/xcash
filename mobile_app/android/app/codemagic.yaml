@@ -6,12 +6,13 @@ workflows:
       flutter: stable
       java: 17
     scripts:
-      - name: Generate debug keystore with absolute path
+      - name: Generate debug keystore in current directory
         script: |
-          $JAVA_HOME/bin/keytool -genkey -v -keystore $FUTTER_ROOT/../../clone/mobile_app/android/app/debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US" || keytool -genkey -v -keystore mobile_app/android/app/debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US"
+          cd mobile_app/android/app
+          keytool -genkey -v -keystore debug.keystore -keyalg RSA -keysize 2048 -validity 10000 -alias androiddebugkey -storepass android -keypass android -dname "CN=Android Debug, O=Android, C=US"
       - name: Build App Bundle
         script: |
           cd mobile_app
-          flutter build appbundle --release
+          flutter build appbundle --release --android-skip-build-dependency-validation
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
