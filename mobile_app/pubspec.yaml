@@ -19,7 +19,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.1
 
 flutter_launcher_icons:
-  image_path: "assets/xcash.jpg"
+  image_path: "assets/icon.png.jpg"
   android: true
   ios: true
 
