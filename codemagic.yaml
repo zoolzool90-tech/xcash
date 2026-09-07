@@ -6,7 +6,7 @@ workflows:
       flutter: stable
       java: 17
     scripts:
-      - name: Create Keystore
+      - name: Generate Keystore
         script: |
           cd mobile_app/android/app
           echo "123456" | keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE" || true
