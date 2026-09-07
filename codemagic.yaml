@@ -12,10 +12,10 @@ workflows:
           flutter pub get
       - name: Generate Keystore and Build
         script: |
-          cd mobile_app/android/app
+          cd mobile_app/android
           rm -f key.jks
           keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
-          cd ../..
+          cd ..
           flutter build appbundle --release
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
