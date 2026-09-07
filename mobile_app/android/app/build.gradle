@@ -26,12 +26,14 @@ android {
     ndkVersion flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_1
-        targetCompatibility JavaVersion.VERSION_1_1
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = '1.1'
+    kotlin {
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
+        }
     }
 
     defaultConfig {
@@ -44,7 +46,6 @@ android {
 
     signingConfigs {
         release {
-            // استخدام مفتاح الـ debug الافتراضي لتجاوز خطأ البحث عن ملف key.jks الخارجي نهائياً
             storeFile file('debug.keystore')
             storePassword "android"
             keyAlias "androiddebugkey"
@@ -54,7 +55,6 @@ android {
 
     buildTypes {
         release {
-            // ربط إعدادات التوقيع بريلز لتوليد الحزمة المقبولة
             signingConfig signingConfigs.release
             minifyEnabled false
             shrinkResources false
