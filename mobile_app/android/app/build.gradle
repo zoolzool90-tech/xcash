@@ -27,10 +27,13 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("$rootDir/app/key.jks")
-            storePassword "123456"
-            keyAlias "key"
-            keyPassword "123456"
+            // اعتماد إعدادات التوقيع القادمة من بيئة Codemagic تلقائياً
+            if (System.getenv()["CM_KEYSTORE_PATH"] != null) {
+                storeFile file(System.getenv()["CM_KEYSTORE_PATH"])
+                storePassword System.getenv()["CM_KEYSTORE_PASSWORD"]
+                keyAlias System.getenv()["CM_KEY_ALIAS"]
+                keyPassword System.getenv()["CM_KEY_PASSWORD"]
+            }
         }
     }
 
