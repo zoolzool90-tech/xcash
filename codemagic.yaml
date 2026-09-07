@@ -9,12 +9,13 @@ workflows:
       - name: Generate Keystore
         script: |
           cd mobile_app/android/app
-          echo "123456" | keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE" || true
+          rm -f key.jks
+          keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
       - name: Install dependencies
         script: |
           cd mobile_app
           flutter pub get
-      - name: Build Android App Bundle
+      - name: Build Signed Android App Bundle
         script: |
           cd mobile_app
           flutter build appbundle --release
