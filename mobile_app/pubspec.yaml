@@ -1,29 +1,20 @@
-name: xcash_mobile
-description: X Cash Luxury Mobile Application
-publish_to: 'none'
-version: 1.0.0+1
-
-environment:
-  sdk: '>=3.0.0 <4.0.0'
-
-dependencies:
-  flutter:
-    sdk: flutter
-  http: ^1.1.0
-  cupertino_icons: ^1.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^2.0.0
-  flutter_launcher_icons: ^0.13.1
-
-flutter:
-  uses-material-design: true
-  assets:
-    - assets/icon.png.jpg
-
-flutter_launcher_icons:
-  android: "launcher_icon"
-  ios: false
-  image_path: "assets/icon.png.jpg"
+workflows:
+  android-release:
+    name: X Cash Android Release
+    max_build_duration: 30
+    environment:
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Generate Keystore
+        script: |
+          cd mobile_app/android/app
+          keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=XCash, O=XCash, L=Dubai, ST=Dubai, C=AE"
+          echo "Checking generated keystore file:"
+          ls -la key.jks
+      - name: Build App Bundle
+        script: |
+          cd mobile_app
+          flutter build appbundle --release --android-skip-build-dependency-validation
+    artifacts:
+      - mobile_app/build/app/outputs/bundle/release/*.aab
