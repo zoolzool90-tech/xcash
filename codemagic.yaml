@@ -6,18 +6,19 @@ workflows:
       flutter: stable
       java: 17
     scripts:
-      - name: Generate Keystore
+      - name: Generate Keystore and Build App
         script: |
+          echo "--- 1. Generating Keystore ---"
           cd mobile_app/android/app
           rm -f key.jks
           keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
-      - name: Install dependencies
-        script: |
-          cd mobile_app
+          
+          echo "--- 2. Verifying Keystore File ---"
+          ls -la key.jks
+          
+          echo "--- 3. Building Flutter App Bundle ---"
+          cd ../../
           flutter pub get
-      - name: Build Signed Android App Bundle
-        script: |
-          cd mobile_app
           flutter build appbundle --release
     artifacts:
       - mobile_app/build/app/outputs/bundle/release/*.aab
