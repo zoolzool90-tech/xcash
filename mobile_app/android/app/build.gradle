@@ -46,10 +46,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('debug.keystore')
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
+            storeFile file('key.jks')
+            storePassword "xcash123"
+            keyAlias "xcash_alias"
+            keyPassword "xcash123"
         }
     }
 
