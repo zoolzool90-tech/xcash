@@ -4,36 +4,21 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
-def localProperties = new Properties()
-def localPropertiesFile = rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    localProperties.load(new FileInputStream(localPropertiesFile))
-}
-
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 android {
     namespace "com.walid.xcash"
     compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_17
+        targetCompatibility JavaVersion.VERSION_1_17
     }
 
-    kotlin {
-        compilerOptions {
-            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8
-        }
+    kotlinOptions {
+        jvmTarget = '17'
     }
 
     defaultConfig {
@@ -47,9 +32,9 @@ android {
     signingConfigs {
         release {
             storeFile file('key.jks')
-            storePassword "xcash123"
-            keyAlias "xcash_alias"
-            keyPassword "xcash123"
+            storePassword "123456"
+            keyAlias "key"
+            keyPassword "123456"
         }
     }
 
@@ -63,7 +48,7 @@ android {
 }
 
 flutter {
-    source = '../..'
+    source '../..'
 }
 
 dependencies {
