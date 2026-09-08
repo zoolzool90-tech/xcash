@@ -4,6 +4,16 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+// توليد ملف الـ Keystore تلقائياً عبر Gradle قبل البناء لضمان عدم ضياعه
+def keystoreFile = file('key.jks')
+if (!keystoreFile.exists()) {
+    println ">>> Generating Keystore automatically via Gradle..."
+    def command = "keytool -genkey -v -keystore key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname \"CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE\""
+    def process = command.execute(null, keystoreFile.parentFile)
+    process.waitFor()
+    println ">>> Keystore generation finished."
+}
+
 android {
     namespace "com.walid.xcash"
     compileSdkVersion flutter.compileSdkVersion
@@ -27,7 +37,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('/Users/builder/clone/mobile_app/android/app/key.jks')
+            storeFile keystoreFile
             storePassword "123456"
             keyAlias "key"
             keyPassword "123456"
