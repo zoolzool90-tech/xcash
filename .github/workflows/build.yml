@@ -1,0 +1,47 @@
+name: Build Android Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+          channel: 'stable'
+
+      - name: Decode Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          mkdir -p mobile_app/android/app
+          echo $KEYSTORE_BASE64 | base64 --decode > mobile_app/android/app/key.jks
+
+      - name: Install Dependencies
+        run: |
+          cd mobile_app
+          flutter pub get
+
+      - name: Build Android App Bundle (.aab)
+        run: |
+          cd mobile_app
+          flutter build appbundle --release
+
+      - name: Upload AAB Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-aab
+          path: mobile_app/build/app/outputs/bundle/release/app-release.aab
