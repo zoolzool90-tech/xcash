@@ -22,13 +22,41 @@ jobs:
         with:
           flutter-version: '3.24.3'
 
-      - name: Generate Keystore and Prepare Icons
+      - name: Generate Keystore and Setup Icons
         run: |
           # توليد مفتاح التوقيع
           keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
           
-          # التأكد من وجود مجلدات الأيقونات (يجب أن تكون قد رفعت الأيقونات بداخلها)
-          ls -la mobile_app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || echo "Warning: Icon not found, build might fail."
+          # إنشاء بقية مجلدات الأيقونات وتوزيع الأيقونة التي رفعتها لجميع المقاسات تلقائياً
+          ICON_PATH="mobile_app/android/app/src/main/res"
+          
+          if [ -f "$ICON_PATH/mipmap-xhdpi/ic_launcher.png" ]; then
+            SOURCE_ICON="$ICON_PATH/mipmap-xhdpi/ic_launcher.png"
+          elif [ -f "mobile_app/android/app/src/main/ic_launcher.png" ]; then
+            SOURCE_ICON="mobile_app/android/app/src/main/ic_launcher.png"
+          else
+            # في حال كانت في مكان آخر، سنبحث عنها وننسخها
+            SOURCE_ICON=$(find mobile_app/android/app/src -name "ic_launcher.png" | head -n 1)
+          fi
+
+          if [ -n "$SOURCE_ICON" ] && [ -f "$SOURCE_ICON" ]; then
+            echo "Found icon at: $SOURCE_ICON"
+            mkdir -p $ICON_PATH/mipmap-hdpi
+            mkdir -p $ICON_PATH/mipmap-mdpi
+            mkdir -p $ICON_PATH/mipmap-xhdpi
+            mkdir -p $ICON_PATH/mipmap-xxhdpi
+            mkdir -p $ICON_PATH/mipmap-xxxhdpi
+            
+            cp "$SOURCE_ICON" $ICON_PATH/mipmap-hdpi/ic_launcher.png
+            cp "$SOURCE_ICON" $ICON_PATH/mipmap-mdpi/ic_launcher.png
+            cp "$SOURCE_ICON" $ICON_PATH/mipmap-xhdpi/ic_launcher.png
+            cp "$SOURCE_ICON" $ICON_PATH/mipmap-xxhdpi/ic_launcher.png
+            cp "$SOURCE_ICON" $ICON_PATH/mipmap-xxxhdpi/ic_launcher.png
+            echo "Icons successfully copied to all densities!"
+          else
+            echo "Error: ic_launcher.png not found in repository!"
+            exit 1
+          fi
 
       - name: Install Dependencies
         run: |
