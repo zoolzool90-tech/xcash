@@ -22,12 +22,12 @@ jobs:
         with:
           flutter-version: '3.24.3'
 
-      - name: Generate Keystore and Create Valid Launcher Icon
+      - name: Generate Keystore and Valid Launcher Icon
         run: |
           # توليد مفتاح التوقيع
           keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
           
-          # إنشاء مجلدات الأيقونات وتوليد أيقونة PNG صالحة باستخدام بايثون لتجنب أي أخطاء
+          # تجهيز مسارات مجلدات الأيقونات
           ICON_PATH="mobile_app/android/app/src/main/res"
           mkdir -p $ICON_PATH/mipmap-hdpi
           mkdir -p $ICON_PATH/mipmap-mdpi
@@ -35,16 +35,14 @@ jobs:
           mkdir -p $ICON_PATH/mipmap-xxhdpi
           mkdir -p $ICON_PATH/mipmap-xxxhdpi
 
-          python3 -c "
-          from PIL import Image
-          img = Image.new('RGB', (192, 192), color = '#1a73e8')
-          img.save('$ICON_PATH/mipmap-hdpi/ic_launcher.png')
-          img.save('$ICON_PATH/mipmap-mdpi/ic_launcher.png')
-          img.save('$ICON_PATH/mipmap-xhdpi/ic_launcher.png')
-          img.save('$ICON_PATH/mipmap-xxhdpi/ic_launcher.png')
-          img.save('$ICON_PATH/mipmap-xxxhdpi/ic_launcher.png')
-          print('Valid launcher icons generated successfully!')
-          "
+          # تحميل أيقونة افتراضية صالحة ومجربة مباشرة لتجنب أي مشاكل في التوليد
+          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-hdpi/ic_launcher.png
+          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-mdpi/ic_launcher.png
+          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xhdpi/ic_launcher.png
+          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xxhdpi/ic_launcher.png
+          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xxxhdpi/ic_launcher.png
+          
+          echo "Launcher icons prepared successfully!"
 
       - name: Install Dependencies
         run: |
