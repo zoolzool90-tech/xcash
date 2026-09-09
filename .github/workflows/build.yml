@@ -1,61 +1,48 @@
-name: Build Android Release
+name: Build Flutter App (APK & AAB)
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main  # أو master حسب اسم الفرع الأساسي في مستودعك
 
 jobs:
   build:
+    name: Build App Bundles and APKs
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter
+      - name: Set up Flutter Environment
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3'
+          flutter-version: '3.x'
+          channel: 'stable'
 
-      - name: Generate Keystore and Valid Launcher Icon
-        run: |
-          # توليد مفتاح التوقيع
-          keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
-          
-          # تجهيز مسارات مجلدات الأيقونات
-          ICON_PATH="mobile_app/android/app/src/main/res"
-          mkdir -p $ICON_PATH/mipmap-hdpi
-          mkdir -p $ICON_PATH/mipmap-mdpi
-          mkdir -p $ICON_PATH/mipmap-xhdpi
-          mkdir -p $ICON_PATH/mipmap-xxhdpi
-          mkdir -p $ICON_PATH/mipmap-xxxhdpi
+      - name: Install Project Dependencies
+        run: flutter pub get
 
-          # تحميل أيقونة افتراضية صالحة ومجربة مباشرة لتجنب أي مشاكل في التوليد
-          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-hdpi/ic_launcher.png
-          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-mdpi/ic_launcher.png
-          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xhdpi/ic_launcher.png
-          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xxhdpi/ic_launcher.png
-          curl -s -L "https://raw.githubusercontent.com/flutter/flutter/master/examples/hello_world/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" -o $ICON_PATH/mipmap-xxxhdpi/ic_launcher.png
-          
-          echo "Launcher icons prepared successfully!"
+      - name: Build Android App Bundle (AAB for Google Play)
+        run: flutter build appbundle --release
 
-      - name: Install Dependencies
-        run: |
-          cd mobile_app
-          flutter pub get
-
-      - name: Build Android App Bundle (.aab)
-        run: |
-          cd mobile_app
-          flutter build appbundle --release
+      - name: Build Android APK (For Mobile Testing)
+        run: flutter build apk --release
 
       - name: Upload AAB Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release-aab
-          path: mobile_app/build/app/outputs/bundle/release/app-release.aab
+          name: app-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
