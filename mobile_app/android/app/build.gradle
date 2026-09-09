@@ -21,8 +21,8 @@ android {
         applicationId "com.example.xcash"
         minSdk flutter.minSdkVersion
         targetSdk 36
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0.0"
     }
 
     buildTypes {
