@@ -5,40 +5,29 @@ plugins {
 }
 
 android {
-    namespace "com.walid.xcash"
-    compileSdkVersion flutter.compileSdkVersion
+    namespace "com.example.xcash"
+    compileSdk 36
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '1.8'
     }
 
     defaultConfig {
-        applicationId "com.walid.xcash"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
-        versionCode 1
-        versionName "1.0.0"
-    }
-
-    signingConfigs {
-        release {
-            storeFile file('key.jks')
-            storePassword "123456"
-            keyAlias "key"
-            keyPassword "123456"
-        }
+        applicationId "com.example.xcash"
+        minSdk flutter.minSdkVersion
+        targetSdk 36
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
+            signingConfig signingConfigs.debug
         }
     }
 }
