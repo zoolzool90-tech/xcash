@@ -22,11 +22,23 @@ jobs:
         with:
           flutter-version: '3.24.3'
 
-      - name: Generate Keystore Automatically
+      - name: Generate Keystore and Dummy Launcher Icon
         run: |
-          mkdir -p mobile_app/android/app
+          mkdir -p mobile_app/android/app/src/main/res/mipmap-hdpi
+          mkdir -p mobile_app/android/app/src/main/res/mipmap-mdpi
+          mkdir -p mobile_app/android/app/src/main/res/mipmap-xhdpi
+          mkdir -p mobile_app/android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p mobile_app/android/app/src/main/res/mipmap-xxxhdpi
+          
+          # توليد مفتاح التوقيع
           keytool -genkey -v -keystore mobile_app/android/app/key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias key -storepass 123456 -keypass 123456 -dname "CN=Walid, OU=Xcash, O=Xcash, L=Dubai, ST=Dubai, C=AE"
-          ls -la mobile_app/android/app/key.jks
+
+          # إنشاء ملفات أيقونات فارغة لمنع خطأ AAPT
+          touch mobile_app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          touch mobile_app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          touch mobile_app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          touch mobile_app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          touch mobile_app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
       - name: Install Dependencies
         run: |
