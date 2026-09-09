@@ -3,7 +3,7 @@ name: Build Flutter App (APK & AAB)
 on:
   push:
     branches:
-      - main  # أو master حسب اسم الفرع الأساسي في مستودعك
+      - main  # أو master حسب اسم الفرع الرئيسي لديك
 
 jobs:
   build:
