@@ -1,51 +1,37 @@
-name: Build Flutter App (APK & AAB)
+name: Build Flutter App
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
-    name: Build App Bundles and APKs
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Java JDK
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter Environment
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.x'
           channel: 'stable'
+          cache: true
 
-      - name: Install Project Dependencies
-        run: flutter pub get
-        working-directory: mobile_app
+      - name: Install dependencies & Generate Icons
+        run: |
+          cd mobile_app
+          flutter pub get
+          flutter pub run flutter_launcher_icons:main
 
-      - name: Build Android App Bundle (AAB for Google Play)
-        run: flutter build appbundle --release
-        working-directory: mobile_app
-
-      - name: Build Android APK (For Mobile Testing)
-        run: flutter build apk --release
-        working-directory: mobile_app
-
-      - name: Upload AAB Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-aab
-          path: mobile_app/build/app/outputs/bundle/release/app-release.aab
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-apk
-          path: mobile_app/build/app/outputs/flutter-apk/app-release.apk
+      - name: Build Android App Bundle (AAB)
+        run: |
+          cd mobile_app
+          flutter build appbundle --release
