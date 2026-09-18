@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace "com.example.xcash"
+    namespace "com.zoolzool.xcash"
     compileSdk 36
 
     compileOptions {
@@ -18,7 +18,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.xcash"
+        applicationId "com.zoolzool.xcash"
         minSdk flutter.minSdkVersion
         targetSdk 36
         versionCode 1
